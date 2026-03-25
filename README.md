@@ -26,7 +26,7 @@ La aplicación integra un mapa satelital interactivo del campus con elementos tr
 ---
 
 ## Integrantes del Equipo
-1. **Ariadna Betsabe Espina Ramirez** 2. **Jose Alberto Pérez Cortes** 3. **Amaury Yamil Morales Diaz** ---
+1. **Ariadna Betsabe Espina Ramirez** 2. **Jose Alberto Pérez Cortes** 3. **Amaury Yamil Morales Diaz** 
 
 ---
 
