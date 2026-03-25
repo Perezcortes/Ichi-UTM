@@ -28,19 +28,26 @@ La aplicación integra un mapa satelital interactivo del campus con elementos tr
 ## Integrantes del Equipo
 1. **Ariadna Betsabe Espina Ramirez** 2. **Jose Alberto Pérez Cortes** 3. **Amaury Yamil Morales Diaz** ---
 
+---
+
 ## Bocetos y Pantallas Propuestas
 
-> **Nota:** *[Aquí deberás insertar el enlace a tu imagen de Figma o adjuntar la captura de tus bocetos]*
-> `![Bocetos de la app](enlace_a_tu_imagen.png)`
+A continuación se presentan los prototipos de alta fidelidad diseñados para la interfaz de **Ichi UTM**, siguiendo la paleta institucional (Guinda y Crema) y la integración de mapas 3D.
 
-1. **Pantalla Principal (Mapa Interactivo):**
-   Pantalla de inicio a pantalla completa que despliega el mapa de la UTM centrado en el campus. Contiene botones de control de cámara (zoom, brújula) y los 10 marcadores interactivos (pines) resaltando los institutos principales.
+<p align="center">
+  <img src="Prototipos/Inicio.png" width="30%" alt="Pantalla de Inicio" />
+  <img src="Prototipos/segunda.png" width="30%" alt="Mapa Interactivo" />
+  <img src="Prototipos/tercera.png" width="30%" alt="Detalle de POI" />
+</p>
 
-2. **Pantalla de Detalle del Lugar (POI):**
-   Un panel inferior (*Bottom Sheet*) o pantalla modal que se despliega al tocar un pin. Muestra el nombre del instituto/edificio, una descripción de los servicios o carreras que alberga, un carrusel deslizable con fotografías del lugar y un botón de "Lanzar Actividad" si el lugar tiene un minijuego asignado.
+1. **Pantalla de Inicio (Splash Screen):**
+   Muestra la identidad visual de la aplicación con el logotipo de **Ichi UTM**. Diseñada con un fondo crema limpio para una transición suave hacia el mapa.
 
-3. **Pantallas de Actividades (Juegos):**
-   Cada minijuego consta de al menos dos pantallas: una pantalla de "Inicio/Instrucciones" contextualizada con el edificio, y la pantalla del "Tablero de Juego" interactivo.
+2. **Pantalla Principal (Mapa Interactivo):**
+   Despliega el mapa de la UTM con extrusión de edificios en 3D. Incluye la barra superior institucional y marcadores personalizados (pines) para los institutos y servicios principales.
+
+3. **Pantalla de Detalle del Lugar (POI):**
+   Panel inferior (*Bottom Sheet*) que se activa al tocar un pin. Presenta el nombre del edificio, descripción técnica, galería de imágenes deslizable y el acceso directo a los minijuegos de ludificación.
 
 ---
 
