@@ -30,6 +30,8 @@ La aplicación integra un mapa satelital interactivo del campus con elementos tr
 
 ---
 
+---
+
 ## Bocetos y Pantallas Propuestas
 
 A continuación se presentan los prototipos de alta fidelidad diseñados para la interfaz de **Ichi UTM**, siguiendo la paleta institucional (Guinda y Crema) y la integración de mapas 3D.
