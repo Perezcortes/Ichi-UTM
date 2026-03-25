@@ -12,7 +12,7 @@
 ## Descripción General
 **Ichi UTM** (del mixteco *Ichi*, que significa "camino" o "ruta") es una aplicación móvil desarrollada en Flutter, diseñada para facilitar la navegación y orientación de los estudiantes de nuevo ingreso en la **Universidad Tecnológica de la Mixteca (UTM)**. 
 
-La aplicación integra un mapa satelital interactivo del campus con elementos tridimensionales, marcando al menos diez Puntos de Interés (POIs) fundamentales para la vida universitaria. Además, incorpora mecánicas de ludificación (minijuegos contextualizados) vinculados a edificios específicos para reforzar el aprendizaje del entorno de una manera interactiva y amigable.
+La aplicación integra un mapa satelital interactivo del campus con elementos tridimensionales, marcando al menos diez Puntos de Interés fundamentales para la vida universitaria. Además, incorpora mecánicas de ludificación (minijuegos contextualizados) vinculados a edificios específicos para reforzar el aprendizaje del entorno de una manera interactiva y amigable.
 
 ---
 
@@ -34,7 +34,7 @@ La aplicación integra un mapa satelital interactivo del campus con elementos tr
 
 ## Bocetos y Pantallas Propuestas
 
-A continuación se presentan los prototipos de alta fidelidad diseñados para la interfaz de **Ichi UTM**, siguiendo la paleta institucional (Guinda y Crema) y la integración de mapas 3D.
+A continuación se presentan los prototipos base diseñados para la interfaz de **Ichi UTM**, siguiendo la paleta institucional (Guinda y Crema) y la integración de mapas 3D. 
 
 <p align="center">
   <img src="Prototipos/Inicio.png" width="30%" alt="Pantalla de Inicio" />
@@ -50,6 +50,25 @@ A continuación se presentan los prototipos de alta fidelidad diseñados para la
 
 3. **Pantalla de Detalle del Lugar (POI):**
    Panel inferior (*Bottom Sheet*) que se activa al tocar un pin. Presenta el nombre del edificio, descripción técnica, galería de imágenes deslizable y el acceso directo a los minijuegos de ludificación.
+
+---
+
+## 📍 Puntos de Interés Contemplados
+La aplicación incluye marcadores interactivos para los 11 puntos clave del campus, permitiendo a los alumnos identificar cada edificio y los servicios que ofrece:
+
+| Icono | Punto de Interés | Descripción Breve |
+| :---: | :--- | :--- |
+| 🏛️ | **Servicios Escolares** | Trámites académicos, becas e inscripciones. |
+| 🍴 | **Cafetería Grande** | Área principal de comedor y convivencia estudiantil. |
+| 💻 | **Inst. de Computación** | Ing. en Computación, Ing. en Software. IA|
+| 🗣️ | **Centro de Idiomas** | Cursos de Inglés Chino, Aleman y certificaciones. |
+| 📚 | **Biblioteca Universitaria** | salas de estudio. |
+| 🛠️ | **Inst. de Electrónica y Mecatrónica** | Laboratorios de robótica, circuitos y potencia. |
+| 🎨 | **Inst. de Diseño** | Talleres de diseño gráfico e industrial. |
+| 🧪 | **Inst. de Alimentos y Química** | Plantas piloto y laboratorios de análisis químico. |
+| 📐 | **Inst. de Física y Matemáticas** | Investigación y Astronomia. |
+| 🚗 | **Inst. de Ing. Industrial y Automotriz** | Talleres de manufactura y diseño automotriz. |
+| ⚖️ | **Inst. de Cs. Sociales y Humanidades** | Áreas académicas de apoyo y formación integral. |
 
 ---
 
