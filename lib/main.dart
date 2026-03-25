@@ -4,11 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await dotenv.load(fileName: ".env");
-
   MapboxOptions.setAccessToken(dotenv.env['MAPBOX_ACCESS_TOKEN'] ?? '');
-
   runApp(const MyApp());
 }
 
@@ -34,17 +31,50 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   MapboxMap? mapboxMap;
+  CircleAnnotationManager? circleAnnotationManager;
 
-  void _onMapCreated(MapboxMap mapboxMap) {
+  final Color guindaUTM = const Color(0xFF4A1110);
+
+  void _onMapCreated(MapboxMap mapboxMap) async {
     this.mapboxMap = mapboxMap;
+
+    circleAnnotationManager = await mapboxMap.annotations
+        .createCircleAnnotationManager();
+
+    _agregarPuntoDeInteres(
+      longitud: -97.800065, // Ajustaremos estas coordenadas después
+      latitud: 17.829847,
+      idLugar: "instituto_computacion",
+    );
+  }
+
+  // Función auxiliar para crear puntos fácilmente
+  void _agregarPuntoDeInteres({
+    required double longitud,
+    required double latitud,
+    required String idLugar,
+  }) {
+    circleAnnotationManager?.create(
+      CircleAnnotationOptions(
+        geometry: Point(coordinates: Position(longitud, latitud)),
+        circleColor: guindaUTM.value, // Color Guinda
+        circleRadius: 10.0, // Tamaño del círculo
+        circleStrokeWidth: 3.0, // Grosor del borde
+        circleStrokeColor: 0xFFD4A336, // Color Dorado para el borde
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ichi UTM - Campus'),
-        backgroundColor: const Color(0xFF003366),
+        title: const Text(
+          'Ichi UTM - Campus',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: guindaUTM,
+        centerTitle: true,
       ),
       body: MapWidget(
         key: const ValueKey("mapWidget"),
