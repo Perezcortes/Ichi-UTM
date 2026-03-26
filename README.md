@@ -81,10 +81,13 @@ A continuación se describe la estructura de carpetas sugerida y la temática de
 * **Idea del juego:** "Trivia Tech UTM". Es un juego de preguntas y respuestas de opción múltiple diseñado para evaluar y enseñar datos curiosos sobre la historia de la computación, lenguajes de programación y detalles específicos de la universidad. 
 * **Pantallas:** Contará con una pantalla de inicio para seleccionar la categoría y una segunda pantalla dinámica donde se despliegan las preguntas. *(Nota: Las preguntas han sido estructuradas utilizando Inteligencia Artificial para enriquecer la base de datos, adaptándolas al contexto).*
 
-### 2️⃣ `/propuesta/memorama-ariadna/` (Contexto: Centro de Idiomas)
+### 2️⃣ `/propuesta/cageteria-ariadna/` (Contexto: Cafeteria grande)
 * **Responsable:** Ariadna Betsabe Espina Ramirez
-* **Idea del juego:** Un memorama visual enfocado en relacionar conceptos lingüísticos. El usuario debe emparejar tarjetas táctiles; por ejemplo, conectando la bandera de un país con el nombre de su idioma, o palabras de vocabulario en inglés con su respectiva imagen. 
-* **Pantallas:** Pantalla de menú con selector de dificultad (tamaño de la cuadrícula) y pantalla principal del tablero de cartas con contador de movimientos.
+* **Idea del juego:** Un juego de simulación y gestión de tiempo ambientado en la icónica "Cafetería Grande", el punto de encuentro por excelencia de los universitarios para comer, convivir y, sobre todo, disfrutar de sus famosos tacos. El juego busca capturar la vibrante atmósfera del lugar.
+* **Pantalla Principal:** Con opción de "Iniciar Juego".
+* **Pantalla de Vestidor:** Para seleccionar el outfit del cocinero "el chino".
+* **Pantalla Principal de Juego:** Vista de la barra, estación de preparación de tacos, fila de clientes estudiantes, marcador de dinero acumulado y meta ($1,000). Se ven las pantallas informativas de la universidad al fondo.
+* **Pantalla de Fin de Turno:** Aparece al llegar a los 1,000 pesos, mostrando el éxito del día.
 
 ### 3️⃣ `/propuesta/laberinto-amaury/` (Contexto: Servicios Escolares)
 * **Responsable:** Amaury Yamil Morales Diaz
