@@ -64,6 +64,8 @@ flutter:
     - .env
     - assets/images/logo_sinfondo.png
     - assets/images/entrada_utm.jpeg
+    - assets/images/punto.png
+    - assets/images/loader.png
 
 flutter_launcher_icons:
   android: true

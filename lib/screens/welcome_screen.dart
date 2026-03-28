@@ -1,10 +1,41 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
-import 'main_navigator.dart'; // Importamos el nuevo contenedor
+import 'main_navigator.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _iniciarCarga(); // Arrancamos el temporizador en cuanto se abre la pantalla
+  }
+
+  void _iniciarCarga() async {
+    // 1. Esperamos 3 segundos exactos
+    await Future.delayed(const Duration(seconds: 3));
+
+    // 2. Verificamos que el widget siga en pantalla antes de navegar
+    if (!mounted) return;
+
+    // 3. Transición difuminada automática hacia el mapa
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 800),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const MainNavigator(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,48 +83,39 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
+
+                // --- NUEVA SECCIÓN DE CARGA AUTOMÁTICA ---
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 40,
+                    horizontal: 60,
+                    vertical: 50,
                   ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 800),
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  const MainNavigator(), // ¡Cambio aquí!
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Cargando el campus...',
+                        style: TextStyle(
+                          color: cremaUTM,
+                          fontSize: 15,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.w500,
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: guindaUTM,
-                      foregroundColor: cremaUTM,
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        side: const BorderSide(color: doradoUTM, width: 2),
                       ),
-                      elevation: 8,
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    child: const Text(
-                      'COMENZAR EL RECORRIDO',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
+                      const SizedBox(height: 15),
+                      // ClipRRect nos ayuda a que la barra tenga bordes curvos y premium
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          backgroundColor: cremaUTM.withValues(
+                            alpha: 0.2,
+                          ), // Fondo de la barra
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            doradoUTM,
+                          ), // Color animado
+                          minHeight: 5, // Grosor elegante
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ],
