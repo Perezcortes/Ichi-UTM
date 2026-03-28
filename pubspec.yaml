@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   mapbox_maps_flutter: ^2.20.0
   flutter_dotenv: ^6.0.0
+  flutter_tts: ^3.8.3
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,7 @@ flutter:
     - assets/images/entrada_utm.jpeg
     - assets/images/punto.png
     - assets/images/loader.png
+    - assets/images/ave.png
 
 flutter_launcher_icons:
   android: true
