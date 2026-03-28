@@ -62,9 +62,11 @@ flutter:
   
   assets:
     - .env
+    - assets/images/logo_sinfondo.png
+    - assets/images/entrada_utm.jpeg
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/logo-ichi.png"
+  image_path: "assets/images/logo_ichi.png"
   min_sdk_android: 21 # opcional
