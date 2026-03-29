@@ -11,6 +11,13 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.828091721755126,
     'lng': -97.80494287579597,
     'tieneJuego': true,
+    'galeria': [
+      'assets/images/InstComputacion.jpg',
+      'https://picsum.photos/id/20/800/600',
+      'https://picsum.photos/id/48/800/600',
+    ],
+    // En el Instituto de Computación:
+    'imagen360': 'assets/images/InstComputacion.jpg',
   },
   {
     'nombre': 'Servicios Escolares',
