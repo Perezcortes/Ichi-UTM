@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 import 'map_screen.dart';
@@ -12,9 +13,8 @@ class MainNavigator extends StatefulWidget {
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
-  int _currentIndex = 0; // 0 = Mapa, 1 = Juegos, 2 = Perfil
+  int _currentIndex = 0;
 
-  // Lista de las pantallas a mostrar
   final List<Widget> _screens = [
     const MapScreen(),
     const GamesScreen(),
@@ -24,41 +24,87 @@ class _MainNavigatorState extends State<MainNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // El cuerpo cambia dependiendo de qué botón tocaste
+      extendBody: true, // El mapa sigue escurriéndose por debajo
       body: _screens[_currentIndex],
 
-      // La famosa barra inferior
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index; // Cambia de pantalla al tocar
-          });
-        },
-        backgroundColor: guindaUTM, // Fondo institucional
-        selectedItemColor: doradoUTM, // Ícono seleccionado en dorado
-        unselectedItemColor: cremaUTM.withValues(
-          alpha: 0.6,
-        ), // Íconos no seleccionados
-        showSelectedLabels: false, // Oculta los textos como pediste
-        showUnselectedLabels: false,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
-            activeIcon: Icon(Icons.map),
-            label: 'Mapa',
+      // LA BARRA COMPACTA ANCLADA AL PISO
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          // Redondeamos solo las esquinas superiores para que se pegue al fondo
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              color: guindaUTM.withValues(
+                alpha: 0.85,
+              ), // Cristal entintado guinda
+              // SafeArea protege los íconos de la barra de navegación del celular
+              child: SafeArea(
+                top: false,
+                child: SizedBox(
+                  height: 65, // ¡Mantiene el tamaño súper compacto!
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildIconoNavegacion(Icons.map_outlined, Icons.map, 0),
+                      _buildIconoNavegacion(
+                        Icons.sports_esports_outlined,
+                        Icons.sports_esports,
+                        1,
+                      ),
+                      _buildIconoNavegacion(
+                        Icons.person_outline,
+                        Icons.person,
+                        2,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sports_esports_outlined),
-            activeIcon: Icon(Icons.sports_esports),
-            label: 'Juegos',
+        ),
+      ),
+    );
+  }
+
+  // Nuestro botón de navegación personalizado y animado
+  Widget _buildIconoNavegacion(
+    IconData iconoNormal,
+    IconData iconoActivo,
+    int indice,
+  ) {
+    bool seleccionado = _currentIndex == indice;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _currentIndex = indice;
+        });
+      },
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        height: 65,
+        width: 80, // Área de toque un poco más ancha para evitar errores
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (child, anim) =>
+              ScaleTransition(scale: anim, child: child),
+          child: Icon(
+            seleccionado ? iconoActivo : iconoNormal,
+            key: ValueKey<bool>(seleccionado),
+            color: seleccionado ? doradoUTM : cremaUTM.withValues(alpha: 0.6),
+            size: seleccionado ? 30 : 26,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
+        ),
       ),
     );
   }

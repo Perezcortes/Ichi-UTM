@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' hide Size;
@@ -88,13 +89,56 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Ichi UTM - Campus',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      // 1. EL TRUCO: Permitir que el contenido (mapa/body) suba hasta el techo de la pantalla
+      extendBodyBehindAppBar: true,
+      backgroundColor: cremaUTM,
+
+      // 2. EL APPBAR ESMERILADO (Glassmorphism)
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70), // Un poco más alta
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05), // Sombra muy sutil
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          // ClipRRect para redondear el efecto de desenfoque
+          child: ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(20),
+            ),
+            child: BackdropFilter(
+              // EL EFECTO MÁGICO DE DESENFOQUE
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: AppBar(
+                title: const Text(
+                  'Ichi UTM - Campus',
+                  style: TextStyle(
+                    color: guindaUTM, // <-- TEXTO GUINDA SOBRE FONDO BLANCO
+                    fontWeight: FontWeight.w900, // Letra muy gruesa
+                    fontSize: 22,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                // Fondo blanco translúcido
+                backgroundColor: Colors.white.withValues(alpha: 0.7),
+                elevation: 0, // Quitamos la elevación por defecto
+                centerTitle: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(20),
+                  ),
+                ),
+                // Íconos en guinda
+                iconTheme: const IconThemeData(color: guindaUTM),
+              ),
+            ),
+          ),
         ),
-        backgroundColor: guindaUTM,
-        centerTitle: true,
       ),
       body: Stack(
         children: [
@@ -111,14 +155,14 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
           Positioned(
-            bottom: 20,
+            bottom: 120,
             right: 15,
             child: GestureDetector(
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
-                      '¡Hola! Soy tu asistente Pu\'ujuy. Pronto te hablaré en Mixteco.',
+                      '¡Hola! Soy tu asistente Tapacaminos. Pronto te hablaré en Mixteco.',
                     ),
                   ),
                 );
