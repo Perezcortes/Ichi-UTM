@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' hide Size;
+import 'package:permission_handler/permission_handler.dart';
 
 import '../data/lugares_utm.dart';
 import 'lugar_detalle_screen.dart';
@@ -22,6 +23,34 @@ class _MapScreenState extends State<MapScreen> {
   void _onMapCreated(MapboxMap mapboxMap) {
     this.mapboxMap = mapboxMap;
     _agregarPinesMasiamente();
+    _habilitarMiUbicacion();
+  }
+
+  // --- GPS ---
+  Future<void> _habilitarMiUbicacion() async {
+    // 1. Pedimos permiso al usuario
+    var status = await Permission.locationWhenInUse.request();
+
+    if (status.isGranted) {
+      // 2. Si nos da permiso, encendemos el "monito" (Location Puck)
+      mapboxMap?.location.updateSettings(
+        LocationComponentSettings(
+          enabled: true, // Muestra el monito
+          pulsingEnabled: true, // Activa el círculo de radar animado
+          pulsingMaxRadius: 30.0, // Qué tan grande se hace el radar
+        ),
+      );
+    } else {
+      // Si rechaza el permiso, le avisamos
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Para ver tu ubicación en el campus, necesitamos acceso al GPS.',
+          ),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
   }
 
   Future<void> _agregarPinesMasiamente() async {
