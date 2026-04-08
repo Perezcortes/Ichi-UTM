@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../utils/constants.dart';
-// Asumiendo que crearás este archivo después para la pantalla de juego real
-// import 'juego_screen.dart';
+// ¡Importación activada!
+import 'juego_screen.dart';
 
 class TriviaScreen extends StatefulWidget {
   const TriviaScreen({super.key});
@@ -211,11 +211,14 @@ class _TriviaScreenState extends State<TriviaScreen>
                       'Pioneros y evolución del software.',
                       Icons.history_edu,
                       () {
-                        // Navegar al juego (Implementaremos esto después)
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => const JuegoScreen(categoria: 'historia')));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('¡Cargando preguntas de Historia!'),
+                        // ¡CONECTADO AL JUEGO!
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const JuegoScreen(
+                              categoria: 'historia',
+                              tituloCategoria: 'Historia Tech',
+                            ),
                           ),
                         );
                       },
@@ -225,9 +228,14 @@ class _TriviaScreenState extends State<TriviaScreen>
                       'Lógica, lenguajes y algoritmos.',
                       Icons.code,
                       () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('¡Cargando preguntas de Código!'),
+                        // ¡CONECTADO AL JUEGO!
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const JuegoScreen(
+                              categoria: 'codigo',
+                              tituloCategoria: 'Código Puro',
+                            ),
                           ),
                         );
                       },
@@ -237,9 +245,14 @@ class _TriviaScreenState extends State<TriviaScreen>
                       '¿Qué tanto conoces tu universidad?',
                       Icons.school,
                       () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('¡Cargando preguntas de la UTM!'),
+                        // ¡CONECTADO AL JUEGO!
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const JuegoScreen(
+                              categoria: 'cultura',
+                              tituloCategoria: 'Cultura UTM',
+                            ),
                           ),
                         );
                       },
