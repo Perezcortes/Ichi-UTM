@@ -68,6 +68,7 @@ flutter:
     - assets/images/loader.png
     - assets/images/ave.png
     - assets/images/InstComputacion.jpg
+    - assets/fotos-utm/
 
 flutter_launcher_icons:
   android: true

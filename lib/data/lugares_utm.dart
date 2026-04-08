@@ -12,12 +12,14 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lng': -97.80494287579597,
     'tieneJuego': true,
     'galeria': [
-      'assets/images/InstComputacion.jpg',
-      'https://picsum.photos/id/20/800/600',
-      'https://picsum.photos/id/48/800/600',
+      'assets/fotos-utm/compu1.jpeg',
+      'assets/fotos-utm/compu2.jpeg',
+      'assets/fotos-utm/compu3.jpeg',
+      'assets/fotos-utm/compu4.jpeg',
+      'assets/fotos-utm/compu5.jpeg',
     ],
-    // En el Instituto de Computación:
-    'imagen360': 'assets/images/InstComputacion.jpg',
+    'imagen360':
+        'assets/fotos-utm/compu1.jpeg', // Usamos la 1 como panorámica de respaldo
   },
   {
     'nombre': 'Servicios Escolares',
@@ -27,6 +29,13 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.82722026427159,
     'lng': -97.80446866873119,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/escolares1.jpeg',
+      'assets/fotos-utm/escolares2.jpeg',
+      'assets/fotos-utm/escolares3.jpeg',
+      'assets/fotos-utm/escolares4.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/escolares1.jpeg',
   },
   {
     'nombre': 'Cafetería Grande',
@@ -36,6 +45,17 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.826453686929476,
     'lng': -97.80314817756658,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/cafe1.jpeg',
+      'assets/fotos-utm/cafe2.jpeg',
+      'assets/fotos-utm/cafe3.jpeg',
+      'assets/fotos-utm/cafe4.jpeg',
+      'assets/fotos-utm/cafe5.jpeg',
+      'assets/fotos-utm/cafe6.jpeg',
+      'assets/fotos-utm/cafe7.jpeg',
+      'assets/fotos-utm/cafe8.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/cafe1.jpeg',
   },
   {
     'nombre': 'Centro de Idiomas',
@@ -45,6 +65,14 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.82673298921043,
     'lng': -97.80273916127575,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/idiomas1.jpeg',
+      'assets/fotos-utm/idiomas2.jpeg',
+      'assets/fotos-utm/idiomas3.jpeg',
+      'assets/fotos-utm/idiomas4.jpeg',
+      'assets/fotos-utm/idiomas5.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/idiomas1.jpeg',
   },
   {
     'nombre': 'Biblioteca Universitaria',
@@ -54,6 +82,20 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.827933962833065,
     'lng': -97.80278506088099,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/biblio1.jpeg',
+      'assets/fotos-utm/biblio2.jpeg',
+      'assets/fotos-utm/biblio3.jpeg',
+      'assets/fotos-utm/biblio4.jpeg',
+      'assets/fotos-utm/biblio5.jpeg',
+      'assets/fotos-utm/biblio6.jpeg',
+      'assets/fotos-utm/biblio7.jpeg',
+      'assets/fotos-utm/biblio8.jpeg',
+      'assets/fotos-utm/biblio9.jpeg',
+      'assets/fotos-utm/biblio10.jpeg',
+      'assets/fotos-utm/biblio11.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/biblio360.jpeg',
   },
   {
     'nombre': 'Inst. de Electrónica y Mecatrónica',
@@ -63,6 +105,14 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.828130855649864,
     'lng': -97.80570859260551,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/eleymeca1.jpeg',
+      'assets/fotos-utm/eleymeca2.jpeg',
+      'assets/fotos-utm/eleymeca3.jpeg',
+      'assets/fotos-utm/eleymeca4.jpeg',
+      'assets/fotos-utm/eleymeca5.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/eleymeca1.jpeg',
   },
   {
     'nombre': 'Inst. de Diseño',
@@ -72,6 +122,12 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.82830547215515,
     'lng': -97.8052581469653,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/diseno1.jpeg',
+      'assets/fotos-utm/diseno2.jpeg',
+      'assets/fotos-utm/diseno3.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/diseno1.jpeg',
   },
   {
     'nombre': 'Inst. de Alimentos y Química',
@@ -81,6 +137,8 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.827818370645083,
     'lng': -97.80570714782597,
     'tieneJuego': false,
+    'galeria': [],
+    'imagen360': null,
   },
   {
     'nombre': 'Inst. de Física y Matemáticas',
@@ -90,6 +148,16 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.8263343477924,
     'lng': -97.8022064385741,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/fisica1.jpeg',
+      'assets/fotos-utm/fisica2.jpeg',
+      'assets/fotos-utm/fisica3.jpeg',
+      'assets/fotos-utm/fisica4.jpeg',
+      'assets/fotos-utm/fisica5.jpeg',
+      'assets/fotos-utm/fisica6.jpeg',
+      'assets/fotos-utm/fisica7.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/fisica1.jpeg',
   },
   {
     'nombre': 'Inst. de Ing. Industrial y Automotriz',
@@ -99,6 +167,18 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.826925123146346,
     'lng': -97.80376726855647,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/indyaut1.jpeg',
+      'assets/fotos-utm/indyaut2.jpeg',
+      'assets/fotos-utm/indyaut3.jpeg',
+      'assets/fotos-utm/indyaut4.jpeg',
+      'assets/fotos-utm/indyaut5.jpeg',
+      'assets/fotos-utm/indyaut6.jpeg',
+      'assets/fotos-utm/indyaut7.jpeg',
+      'assets/fotos-utm/indyaut8.jpeg',
+      'assets/fotos-utm/indyaut9.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/indyaut1.jpeg',
   },
   {
     'nombre': 'Inst. de Cs. Sociales y Humanidades',
@@ -108,5 +188,13 @@ final List<Map<String, dynamic>> listaLugaresUTM = [
     'lat': 17.82662123532089,
     'lng': -97.80343704857172,
     'tieneJuego': false,
+    'galeria': [
+      'assets/fotos-utm/ciensoci1.jpeg',
+      'assets/fotos-utm/ciensoci2.jpeg',
+      'assets/fotos-utm/ciensoci3.jpeg',
+      'assets/fotos-utm/ciensoci4.jpeg',
+      'assets/fotos-utm/ciensoci5.jpeg',
+    ],
+    'imagen360': 'assets/fotos-utm/ciensoci1.jpeg',
   },
 ];
