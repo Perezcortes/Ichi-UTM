@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:ichi_utm/screens/cafe_screen.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_loader_screen.dart';
 import '../games/trivia_jose/trivia_screen.dart'; // Asegúrate de que esta ruta sea correcta
@@ -57,47 +58,55 @@ class GamesScreen extends StatelessWidget {
       ),
 
       // --- EL CATÁLOGO DE JUEGOS ---
-      body: ListView(
-        // Le damos padding arriba para que no se esconda tras el AppBar
-        // y abajo para que no lo tape nuestra barra de navegación anclada
-        padding: const EdgeInsets.only(
-          top: 100,
-          left: 24,
-          right: 24,
-          bottom: 120,
-        ),
-        children: [
-          const Text(
-            'Actividades Disponibles',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: guindaUTM,
+      body: Padding(
+        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 120),
+        child: Column(
+          children: [
+            const SizedBox(height: 200),
+            const Text(
+              'Actividades Disponibles',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: guindaUTM,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // 🎮 TARJETA DE TU JUEGO: TRIVIA TECH UTM
+                  _buildGameCard(
+                    context: context,
+                    titulo: 'Trivia Tech UTM',
+                    subtitulo:
+                        'Demuestra tus conocimientos en el Inst. de Computación.',
+                    icono: Icons.videogame_asset,
+                    pantallaDestino: const TriviaScreen(),
+                    textoCarga: 'Cargando Trivia...',
+                  ),
+                  //PARA EL JUEGO DE CAFETERIA
+                  _buildGameCard(
+                    context: context,
+                    titulo: 'Cafetería UTM-Cooking',
+                    subtitulo: 'Simula ser el "chino" y atiende el lugar.',
+                    icono: Icons.videogame_asset,
+                    pantallaDestino: const CafeScreen(),
+                    textoCarga: 'Cargando Cafetería...',
+                  ),
 
-          // 🎮 TARJETA DE TU JUEGO: TRIVIA TECH UTM
-          _buildGameCard(
-            context: context,
-            titulo: 'Trivia Tech UTM',
-            subtitulo:
-                'Demuestra tus conocimientos en el Inst. de Computación.',
-            icono: Icons.videogame_asset,
-            pantallaDestino: const TriviaScreen(),
-            textoCarga: 'Cargando Trivia...',
-          ),
-
-          const SizedBox(height: 15),
-
-          // 🔒 TARJETA DE PRÓXIMO JUEGO (Para rellenar y que se vea profesional)
-          _buildGameCardLocked(
-            titulo: 'Rally Universitario',
-            subtitulo:
-                'Próximamente: Encuentra los códigos QR por todo el campus.',
-            icono: Icons.qr_code_scanner,
-          ),
-        ],
+                  // 🔒 TARJETA DE PRÓXIMO JUEGO (Para rellenar y que se vea profesional)
+                  _buildGameCardLocked(
+                    titulo: 'Rally Universitario',
+                    subtitulo:
+                        'Próximamente: Encuentra los códigos QR por todo el campus.',
+                    icono: Icons.qr_code_scanner,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

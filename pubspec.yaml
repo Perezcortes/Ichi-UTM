@@ -69,6 +69,11 @@ flutter:
     - assets/images/ave.png
     - assets/images/InstComputacion.jpg
     - assets/fotos-utm/
+    - assets/fondo/
+    - assets/personaje/
+    - assets/personaje/desaparece/
+    - assets/pedidos/
+    - assets/clientes/
 
 flutter_launcher_icons:
   android: true

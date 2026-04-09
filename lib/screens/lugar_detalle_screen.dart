@@ -6,6 +6,7 @@ import '../widgets/custom_loader_screen.dart';
 import '../widgets/boton_audio_animado.dart';
 import '../games/trivia_jose/trivia_screen.dart';
 import '../utils/constants.dart';
+import 'cafe_screen.dart'; // <--- EL NUEVO IMPORT
 
 class LugarDetalleScreen extends StatefulWidget {
   final Map<String, dynamic> lugar;
@@ -419,6 +420,7 @@ class _LugarDetalleScreenState extends State<LugarDetalleScreen> {
                         ],
                       ),
                     ),
+
                   const SizedBox(height: 40), // Espacio final
                 ],
               ),
