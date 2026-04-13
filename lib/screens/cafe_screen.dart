@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../games/juego_cafe/personajeAparece.dart'; // <--- Importamos el widget del cliente
+
+// ¡OJO AQUÍ PLUPLU! 👀
+// Ajusta estas rutas dependiendo de dónde estén guardados tus archivos en la app general
+import '../games/juego_cafe/pedidoAparece.dart';
+import '../games/juego_cafe/personajeAparece.dart';
 
 class CafeScreen extends StatefulWidget {
   const CafeScreen({super.key});
@@ -14,6 +18,7 @@ class _CafeScreenState extends State<CafeScreen> {
   String spriteActual = 'assets/personaje/frente.png';
   Timer? temporizadorMovimiento;
   final double velocidad = 0.05;
+  String pedidoActualEscena = '';
 
   void iniciarMovimiento(bool haciaIzquierda) {
     setState(() {
@@ -50,9 +55,20 @@ class _CafeScreenState extends State<CafeScreen> {
     super.dispose();
   }
 
+  int obtenerZonaChef() {
+    // Estas zonas las puedes ajustar probando en tu emulador
+    // para que coincidan con los contenedores dibujados en tu fondo.
+    if (posicionX < -0.6) return 0; // Contenedor 1 (Más a la izquierda)
+    if (posicionX < -0.2) return 1; // Contenedor 2
+    if (posicionX < 0.2) return 2; // Contenedor 3
+    if (posicionX < 0.6) return 3; // Contenedor 4
+    return 4; // Zona de Platos (Más a la derecha)
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Fondo negro para las franjas cuando el celular esté en vertical
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
@@ -60,8 +76,10 @@ class _CafeScreenState extends State<CafeScreen> {
             // --- EL MUNDO DEL JUEGO ---
             Center(
               child: FittedBox(
-                fit: BoxFit.contain,
+                fit: BoxFit
+                    .contain, // Esto hace que TODO se escale junto sin deformarse
                 child: SizedBox(
+                  // Tamaño VIRTUAL de tu juego
                   width: 800,
                   height: 450,
                   child: Stack(
@@ -73,16 +91,20 @@ class _CafeScreenState extends State<CafeScreen> {
                           fit: BoxFit.fill,
                         ),
                       ),
+
                       // 2. CAPA DEL PERSONAJE
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 50),
-                        alignment: Alignment(posicionX, 0.3),
-                        child: Image.asset(
-                          spriteActual,
-                          height: 248,
-                          fit: BoxFit.contain,
+                      IgnorePointer(
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 50),
+                          alignment: Alignment(posicionX, 0.3),
+                          child: Image.asset(
+                            spriteActual,
+                            height: 248,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
+
                       // 3. CAPA DE LA MESA
                       Align(
                         alignment: Alignment.bottomCenter,
@@ -92,6 +114,8 @@ class _CafeScreenState extends State<CafeScreen> {
                           fit: BoxFit.fitWidth,
                         ),
                       ),
+
+                      // 4. CAPA DEL CLIENTE Y EL GLOBO
                       // 4. CAPA DEL CLIENTE Y EL GLOBO
                       Align(
                         alignment: Alignment.bottomRight,
@@ -100,7 +124,34 @@ class _CafeScreenState extends State<CafeScreen> {
                             right: 20.0,
                             bottom: 0.0,
                           ),
-                          child: PersonajeAparece(),
+                          child: PersonajeAparece(
+                            onNuevoPedido: (nuevoPedido) {
+                              // ¡EL ESCUDO DEL FUTURO! ⏳✨
+                              // Future.delayed empuja esta acción completamente
+                              // fuera de la construcción de la pantalla.
+                              Future.delayed(Duration.zero, () {
+                                if (mounted) {
+                                  setState(() {
+                                    pedidoActualEscena = nuevoPedido;
+                                  });
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      // 5. CAPA DE LOS PEDIDOS Y COMIDA
+                      Positioned.fill(
+                        child: PedidoAparece(
+                          nombrePedido: pedidoActualEscena,
+                          posicionActualChef: obtenerZonaChef(),
+                          onEntregarPedido: () {
+                            if (llaveCliente.currentState != null) {
+                              llaveCliente.currentState!.entregarPlatillo(
+                                pedidoActualEscena,
+                              );
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -109,7 +160,7 @@ class _CafeScreenState extends State<CafeScreen> {
               ),
             ),
 
-            // --- LOS CONTROLES ---
+            // --- LOS CONTROLES (Afuera del juego para que siempre estén a la mano) ---
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -121,6 +172,7 @@ class _CafeScreenState extends State<CafeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // BOTÓN IZQUIERDO
                     GestureDetector(
                       onTapDown: (_) => iniciarMovimiento(true),
                       onTapUp: (_) => detenerMovimiento(),
@@ -134,17 +186,22 @@ class _CafeScreenState extends State<CafeScreen> {
                         child: const Icon(Icons.arrow_back_ios_new, size: 40),
                       ),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                      ),
-                      onPressed: () {
-                        String loQuePidio =
-                            llaveCliente.currentState!.nombreDelPedido;
-                        llaveCliente.currentState!.entregarPlatillo(loQuePidio);
+
+                    // BOTÓN PARA SALIR DEL JUEGO 🚪🏃‍♂️
+                    GestureDetector(
+                      onTap: () {
+                        // Te regresa al mapa o pantalla anterior
+                        Navigator.of(context).pop();
                       },
-                      child: const Text("¡Entregar Pedido! ⭐"),
+                      child: Image.asset(
+                        'assets/fondo/salir.png',
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.contain,
+                      ),
                     ),
+
+                    // BOTÓN DERECHO
                     GestureDetector(
                       onTapDown: (_) => iniciarMovimiento(false),
                       onTapUp: (_) => detenerMovimiento(),
@@ -159,21 +216,6 @@ class _CafeScreenState extends State<CafeScreen> {
                       ),
                     ),
                   ],
-                ),
-              ),
-            ),
-
-            // --- BOTÓN PARA SALIR DEL JUEGO ---
-            Positioned(
-              top: 15,
-              left: 15,
-              child: CircleAvatar(
-                backgroundColor: Colors.black54,
-                child: IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Esto te regresa al mapa
-                  },
                 ),
               ),
             ),

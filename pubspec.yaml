@@ -74,6 +74,9 @@ flutter:
     - assets/personaje/desaparece/
     - assets/pedidos/
     - assets/clientes/
+    - assets/taco/
+    - assets/Desayuno/
+    - assets/cafe/
 
 flutter_launcher_icons:
   android: true
