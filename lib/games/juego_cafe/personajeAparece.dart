@@ -6,7 +6,10 @@ import '../juego_cafe/pedido.dart'; // <--- Aquí va tu lógica para verificar p
 GlobalKey<PersonajeApareceState> llaveCliente = GlobalKey();
 
 class PersonajeAparece extends StatefulWidget {
-  PersonajeAparece({Key? key}) : super(key: key ?? llaveCliente);
+  final ValueChanged<String>? onNuevoPedido;
+
+  PersonajeAparece({Key? key, this.onNuevoPedido})
+    : super(key: key ?? llaveCliente);
 
   @override
   State<PersonajeAparece> createState() => PersonajeApareceState();
@@ -85,9 +88,13 @@ class PersonajeApareceState extends State<PersonajeAparece>
   void _generarNuevoCliente() {
     clienteActual = listaClientes[_random.nextInt(listaClientes.length)];
     pedidoActual = listaPedidos[_random.nextInt(listaPedidos.length)];
-
-    // Extraemos el nombre. Si es 'assets/pedidos/cafePan.png', esto saca 'cafePan'
     nombreDelPedido = pedidoActual.split('/').last.split('.').first;
+
+    if (widget.onNuevoPedido != null) {
+      Future.delayed(Duration.zero, () {
+        widget.onNuevoPedido!(nombreDelPedido);
+      });
+    }
   }
 
   // ESTA FUNCIÓN ES LA QUE RECIBE EL PLATILLO TERMINADO

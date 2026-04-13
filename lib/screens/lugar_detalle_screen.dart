@@ -421,6 +421,39 @@ class _LugarDetalleScreenState extends State<LugarDetalleScreen> {
                       ),
                     ),
 
+                  // --- BOTÓN IR A LA CAFETERÍA ---
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            // Asegúrate de que la clase en cafe_screen.dart se llame CafeScreen
+                            builder: (context) => const CafeScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.local_cafe),
+                      label: const Text(
+                        'Visitar la Cafetería',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.brown, // Un color ad hoc para el café ☕
+                        foregroundColor: cremaUTM,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 3,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 40), // Espacio final
                 ],
               ),
