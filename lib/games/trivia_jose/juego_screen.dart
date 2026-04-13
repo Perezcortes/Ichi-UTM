@@ -1,4 +1,7 @@
+// Archivo: lib/games/trivia_jose/juego_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/constants.dart';
 import 'preguntas_trivia.dart';
 
@@ -50,24 +53,54 @@ class _JuegoScreenState extends State<JuegoScreen> {
         _respondido = false;
       });
     } else {
-      _mostrarResultadoFinal();
+      _guardarYMostrarResultados();
     }
   }
 
-  void _mostrarResultadoFinal() {
+  Future<void> _guardarYMostrarResultados() async {
+    final prefs = await SharedPreferences.getInstance();
+    String key = 'record_${widget.categoria}';
+    int recordActual = prefs.getInt(key) ?? 0;
+    bool nuevoRecord = false;
+
+    if (_puntaje > recordActual) {
+      await prefs.setInt(key, _puntaje);
+      nuevoRecord = true;
+    }
+
+    if (!mounted) return;
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('¡Trivia Terminada!', textAlign: TextAlign.center),
+        title: const Text(
+          '¡Evaluación Concluida!',
+          textAlign: TextAlign.center,
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.emoji_events, size: 60, color: doradoUTM),
+            Icon(
+              nuevoRecord ? Icons.emoji_events : Icons.verified,
+              size: 60,
+              color: nuevoRecord ? doradoUTM : guindaUTM,
+            ),
+            if (nuevoRecord)
+              const Padding(
+                padding: EdgeInsets.only(top: 8.0),
+                child: Text(
+                  '¡NUEVO RÉCORD!',
+                  style: TextStyle(
+                    color: doradoUTM,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             const SizedBox(height: 20),
             Text(
-              'Tu puntaje: $_puntaje / ${_preguntas.length}',
+              'Aciertos: $_puntaje / ${_preguntas.length}',
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
           ],
@@ -76,11 +109,14 @@ class _JuegoScreenState extends State<JuegoScreen> {
           TextButton(
             onPressed: () {
               Navigator.pop(context); // Cierra el diálogo
-              Navigator.pop(context); // Regresa al menú de trivia
+              Navigator.pop(
+                context,
+                true,
+              ); // Devuelve 'true' al menú para que sepa que terminó
             },
             child: const Text(
               'VOLVER AL MENÚ',
-              style: TextStyle(color: guindaUTM),
+              style: TextStyle(color: guindaUTM, fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -90,11 +126,10 @@ class _JuegoScreenState extends State<JuegoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_preguntas.isEmpty) {
-      return Scaffold(
+    if (_preguntas.isEmpty)
+      return const Scaffold(
         body: Center(child: Text('No hay preguntas disponibles.')),
       );
-    }
 
     final pregunta = _preguntas[_preguntaActualIndex];
 
@@ -120,10 +155,14 @@ class _JuegoScreenState extends State<JuegoScreen> {
             const SizedBox(height: 10),
             Text(
               'Pregunta ${_preguntaActualIndex + 1} de ${_preguntas.length}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
 
-            // Pregunta
+            // Texto de la pregunta
             Text(
               pregunta.texto,
               style: const TextStyle(
@@ -133,11 +172,12 @@ class _JuegoScreenState extends State<JuegoScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
 
-            // Opciones
+            // Lista de opciones
             Expanded(
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemCount: pregunta.opciones.length,
                 itemBuilder: (context, index) {
                   Color colorBoton = Colors.white;
@@ -145,10 +185,10 @@ class _JuegoScreenState extends State<JuegoScreen> {
 
                   if (_respondido) {
                     if (index == pregunta.respuestaCorrecta) {
-                      colorBoton = Colors.green.shade400;
+                      colorBoton = Colors.green.shade600;
                       colorTexto = Colors.white;
                     } else if (index == _opcionSeleccionada) {
-                      colorBoton = Colors.red.shade400;
+                      colorBoton = Colors.red.shade500;
                       colorTexto = Colors.white;
                     }
                   }
@@ -160,7 +200,9 @@ class _JuegoScreenState extends State<JuegoScreen> {
                       style: OutlinedButton.styleFrom(
                         backgroundColor: colorBoton,
                         side: BorderSide(
-                          color: _respondido ? colorBoton : guindaUTM,
+                          color: _respondido
+                              ? colorBoton
+                              : guindaUTM.withValues(alpha: 0.5),
                         ),
                         padding: const EdgeInsets.all(20),
                         shape: RoundedRectangleBorder(
@@ -177,30 +219,51 @@ class _JuegoScreenState extends State<JuegoScreen> {
               ),
             ),
 
-            // Botón Siguiente / Explicación
+            // Sección inferior: Explicación y botón Siguiente
             if (_respondido) ...[
-              Text(
-                pregunta.explicacion,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: Colors.blueGrey,
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _siguientePregunta,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: guindaUTM,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade50,
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  _preguntaActualIndex == _preguntas.length - 1
-                      ? 'VER RESULTADOS'
-                      : 'SIGUIENTE',
+                  pregunta.explicacion,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.blueGrey.shade700,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+
+              // --- BOTÓN SEGURO (SAFE AREA) ---
+              SafeArea(
+                top: false,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: ElevatedButton(
+                    onPressed: _siguientePregunta,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: guindaUTM,
+                      minimumSize: const Size(double.infinity, 55),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      _preguntaActualIndex == _preguntas.length - 1
+                          ? 'VER RESULTADOS'
+                          : 'SIGUIENTE',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

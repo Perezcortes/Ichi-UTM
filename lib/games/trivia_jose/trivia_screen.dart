@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/constants.dart';
-// ¡Importación activada!
 import 'juego_screen.dart';
+import 'preguntas_trivia.dart';
 
 class TriviaScreen extends StatefulWidget {
   const TriviaScreen({super.key});
@@ -16,10 +17,18 @@ class _TriviaScreenState extends State<TriviaScreen>
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
+  // Mapa para guardar los récords visualmente
+  Map<String, int> _mejoresPuntajes = {
+    'historia': 0,
+    'codigo': 0,
+    'cultura': 0,
+  };
+
   @override
   void initState() {
     super.initState();
-    // Animación de "latido" para el ícono principal
+    _cargarPuntajes(); // Carga los puntajes al iniciar
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -31,26 +40,50 @@ class _TriviaScreenState extends State<TriviaScreen>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
+  // --- FUNCIÓN PARA LEER LA MEMORIA ---
+  Future<void> _cargarPuntajes() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _mejoresPuntajes['historia'] = prefs.getInt('record_historia') ?? 0;
+      _mejoresPuntajes['codigo'] = prefs.getInt('record_codigo') ?? 0;
+      _mejoresPuntajes['cultura'] = prefs.getInt('record_cultura') ?? 0;
+    });
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
-  // Widget personalizado para las tarjetas de categoría
   Widget _buildCategoriaCard(
+    String idCategoria,
     String titulo,
     String subtitulo,
     IconData icono,
-    VoidCallback onTap,
   ) {
+    int maxPreguntas = bancoDePreguntas[idCategoria]?.length ?? 0;
+    int record = _mejoresPuntajes[idCategoria] ?? 0;
+
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       color: cremaUTM,
       margin: const EdgeInsets.only(bottom: 16),
       child: InkWell(
-        onTap: onTap,
+        onTap: () async {
+          // El await espera a que regreses del juego para recargar los puntajes
+          final recargar = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  JuegoScreen(categoria: idCategoria, tituloCategoria: titulo),
+            ),
+          );
+          if (recargar == true) {
+            _cargarPuntajes();
+          }
+        },
         borderRadius: BorderRadius.circular(20),
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -81,9 +114,25 @@ class _TriviaScreenState extends State<TriviaScreen>
                     Text(
                       subtitulo,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 13,
                         color: Colors.black.withValues(alpha: 0.6),
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    // --- MUESTRA EL RÉCORD ---
+                    Row(
+                      children: [
+                        const Icon(Icons.star, color: doradoUTM, size: 16),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Récord: $record / $maxPreguntas',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: guindaUTM,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -99,11 +148,8 @@ class _TriviaScreenState extends State<TriviaScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Fondo limpio
-      // 1. EL TRUCO: Permitir que el body suba
+      backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
-
-      // 2. EL APPBAR ESMERILADO (Glassmorphism)
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: Container(
@@ -124,26 +170,18 @@ class _TriviaScreenState extends State<TriviaScreen>
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: AppBar(
                 title: const Text(
-                  'Trivia Tech UTM',
+                  'Evaluación Tech',
                   style: TextStyle(
-                    color: guindaUTM, // <-- ACENTO GUINDA
+                    color: guindaUTM,
                     fontWeight: FontWeight.w900,
                     fontSize: 22,
                     letterSpacing: -0.5,
                   ),
                 ),
-                backgroundColor: Colors.white.withValues(
-                  alpha: 0.7,
-                ), // Translúcido
+                backgroundColor: Colors.white.withValues(alpha: 0.7),
                 elevation: 0,
                 centerTitle: true,
-                // Botón de regresar en guinda
                 iconTheme: const IconThemeData(color: guindaUTM),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(20),
-                  ),
-                ),
               ),
             ),
           ),
@@ -151,12 +189,10 @@ class _TriviaScreenState extends State<TriviaScreen>
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
-              // --- CABECERA ANIMADA ---
               ScaleTransition(
                 scale: _scaleAnimation,
                 child: Container(
@@ -173,17 +209,17 @@ class _TriviaScreenState extends State<TriviaScreen>
                     ],
                   ),
                   child: const Icon(
-                    Icons.lightbulb_outline,
+                    Icons.school,
                     size: 60,
                     color: cremaUTM,
-                  ),
+                  ), // Ícono más académico
                 ),
               ),
               const SizedBox(height: 30),
               const Text(
-                '¡Demuestra lo que sabes!',
+                'Evaluación de Conocimientos',
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: guindaUTM,
                 ),
@@ -191,71 +227,36 @@ class _TriviaScreenState extends State<TriviaScreen>
               ),
               const SizedBox(height: 10),
               Text(
-                'Selecciona una categoría para empezar el desafío en el Instituto de Computación.',
+                'Selecciona un módulo para poner a prueba tus habilidades académicas.',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.grey.shade700,
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 40),
-
-              // --- LISTA DE CATEGORÍAS ---
+              const SizedBox(height: 30),
               Expanded(
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
                   children: [
                     _buildCategoriaCard(
-                      'Historia Tech',
-                      'Pioneros y evolución del software.',
-                      Icons.history_edu,
-                      () {
-                        // ¡CONECTADO AL JUEGO!
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const JuegoScreen(
-                              categoria: 'historia',
-                              tituloCategoria: 'Historia Tech',
-                            ),
-                          ),
-                        );
-                      },
+                      'historia',
+                      'Fundamentos',
+                      'Arquitectura y pioneros de la informática.',
+                      Icons.memory,
                     ),
                     _buildCategoriaCard(
-                      'Código Puro',
-                      'Lógica, lenguajes y algoritmos.',
+                      'codigo',
+                      'Ingeniería de Software',
+                      'Lógica, paradigmas y algoritmos.',
                       Icons.code,
-                      () {
-                        // ¡CONECTADO AL JUEGO!
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const JuegoScreen(
-                              categoria: 'codigo',
-                              tituloCategoria: 'Código Puro',
-                            ),
-                          ),
-                        );
-                      },
                     ),
                     _buildCategoriaCard(
-                      'Cultura UTM',
-                      '¿Qué tanto conoces tu universidad?',
-                      Icons.school,
-                      () {
-                        // ¡CONECTADO AL JUEGO!
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const JuegoScreen(
-                              categoria: 'cultura',
-                              tituloCategoria: 'Cultura UTM',
-                            ),
-                          ),
-                        );
-                      },
+                      'cultura',
+                      'Identidad UTM',
+                      'Conocimiento institucional.',
+                      Icons.account_balance,
                     ),
                   ],
                 ),
