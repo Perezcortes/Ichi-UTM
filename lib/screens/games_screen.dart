@@ -1,6 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ichi_utm/games/juego_servicios/Contra_game_screen.dart';
 import 'package:ichi_utm/screens/cafe_screen.dart';
+import 'package:ichi_utm/games/juego_servicios/Game_state.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_loader_screen.dart';
 import '../games/trivia_jose/trivia_screen.dart'; // Asegúrate de que esta ruta sea correcta
@@ -96,11 +99,14 @@ class GamesScreen extends StatelessWidget {
                   ),
 
                   // 🔒 TARJETA DE PRÓXIMO JUEGO (Para rellenar y que se vea profesional)
-                  _buildGameCardLocked(
-                    titulo: 'Rally Universitario',
-                    subtitulo:
-                        'Próximamente: Encuentra los códigos QR por todo el campus.',
-                    icono: Icons.qr_code_scanner,
+                  // Busca la sección de juegos bloqueados y reemplázala:
+                  _buildGameCard(
+                    context: context,
+                    titulo: 'Contra-Tiempo',
+                    subtitulo: 'Consigue sellos en Servicios Escolares antes de que cierren.',
+                    icono: Icons.assignment_turned_in,
+                    pantallaDestino: const RallyGameScreen(),
+                    textoCarga: 'Entrando a Servicios Escolares...',
                   ),
                 ],
               ),

@@ -5,6 +5,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import '../widgets/custom_loader_screen.dart';
 import '../widgets/boton_audio_animado.dart';
 import '../games/trivia_jose/trivia_screen.dart';
+import '../games/juego_servicios/Contra_game_screen.dart';
 import '../utils/constants.dart';
 import 'cafe_screen.dart'; // <--- EL NUEVO IMPORT
 
@@ -354,6 +355,64 @@ class _LugarDetalleScreenState extends State<LugarDetalleScreen> {
                   ),
                   const SizedBox(height: 30),
 
+
+                  // --- BOTÓN DE ACTIVIDAD ESPECÍFICO PARA SERVICIOS ESCOLARES ---
+if (widget.lugar['nombre'] == "Servicios Escolares")
+  Container(
+    width: double.infinity,
+    margin: const EdgeInsets.only(top: 20),
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: doradoUTM.withValues(alpha: 0.2),
+      borderRadius: BorderRadius.circular(15),
+      border: Border.all(color: doradoUTM, width: 1.5),
+    ),
+    child: Column(
+      children: [
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.videogame_asset, color: guindaUTM, size: 28),
+            SizedBox(width: 10),
+            Text(
+              'Actividad Disponible',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: guindaUTM,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 15),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const RallyGameScreen(),
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: guindaUTM,
+            foregroundColor: cremaUTM,
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: const Text(
+            '🎮 ¡Iniciar juego de Servicios!',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+
                   // --- BOTÓN DE JUEGO (Si aplica) ---
                   if (widget.lugar['tieneJuego'] == true)
                     Container(
@@ -421,7 +480,9 @@ class _LugarDetalleScreenState extends State<LugarDetalleScreen> {
                       ),
                     ),
 
+
                   // --- BOTÓN IR A LA CAFETERÍA ---
+                if (widget.lugar['nombre'] == "Cafetería Grande")
                   const SizedBox(height: 20),
                   SizedBox(
                     width: double.infinity,

@@ -30,12 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  provider: ^6.1.1  
   cupertino_icons: ^1.0.8
   mapbox_maps_flutter: ^2.20.0
   flutter_dotenv: ^6.0.0
   flutter_tts: ^3.8.3
   carousel_slider: ^5.0.0      # Para la galería de fotos
   permission_handler: ^12.0.1
+  flutter_joystick: ^0.2.2
 
 dev_dependencies:
   flutter_test:
@@ -54,12 +56,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
-  
+
+  # Los assets deben llevar DOS espacios de sangría para estar dentro de 'flutter'
   assets:
     - .env
     - assets/images/logo_sinfondo.png
@@ -77,9 +76,10 @@ flutter:
     - assets/taco/
     - assets/Desayuno/
     - assets/cafe/
+    - assets/images/escenarios/
 
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/logo_ichi.png"
-  min_sdk_android: 21 # opcional
+  min_sdk_android: 21
