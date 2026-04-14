@@ -80,7 +80,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // --- LÓGICA DE LA FOTO (Manejo Avanzado) ---
   Future<void> _seleccionarFuenteImagen() async {
-    // Muestra un diálogo para elegir entre Cámara o Galería
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -124,32 +123,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _pickAndSaveImage(ImageSource source) async {
-    // 1. Abre la cámara/galería
     final XFile? image = await _picker.pickImage(
       source: source,
       imageQuality: 70,
       maxHeight: 800,
     );
 
-    if (image == null) return; // Usuario canceló
+    if (image == null) return;
 
-    // 2. Obtiene la carpeta de documentos permanentes de la app
     final Directory directory = await getApplicationDocumentsDirectory();
     final String pathDir = directory.path;
 
-    // 3. Genera un nombre de archivo único para la foto
     final String fileName =
         'foto_alumno_${DateTime.now().millisecondsSinceEpoch}${path.extension(image.path)}';
 
-    // 4. Copia la foto temporal a la carpeta permanente
     final File permanentImage = await File(
       image.path,
     ).copy('$pathDir/$fileName');
 
-    // 5. Actualiza el estado para mostrar la nueva foto
     setState(() {
       _imagePath = permanentImage.path;
     });
+  }
+
+  // --- LÓGICA ACERCA DE... (Lo que pidió el profe) ---
+  void _mostrarAcercaDe(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: cremaUTM,
+        title: const Text(
+          'Acerca de Ichi UTM',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: guindaUTM, fontWeight: FontWeight.bold),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Versión 1.0.0',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            const Divider(color: doradoUTM),
+            _itemIntegrante(
+              'Amaury Yamil Morales Diaz',
+              'Juego de servicios escolares',
+            ),
+            _itemIntegrante(
+              'Ariadna Betsabe Espina Ramirez',
+              'Juego de Cafetería y fotos de institutos',
+            ),
+            _itemIntegrante(
+              'Jose Alberto Perez Cortes',
+              'Mapa, GPS, Trivia, Perfil, Voz, Diseño y Animaciones',
+            ),
+            const SizedBox(height: 15),
+            const Text(
+              'Desarrollo de Aplicaciones para Dispositivos Móviles',
+              style: TextStyle(fontSize: 11, fontStyle: FontStyle.italic),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text(
+              'CERRAR',
+              style: TextStyle(color: guindaUTM, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _itemIntegrante(String nombre, String modulo) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            nombre,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          Text(modulo, style: const TextStyle(color: guindaUTM, fontSize: 12)),
+        ],
+      ),
+    );
   }
 
   @override
@@ -168,7 +230,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
 
-      // --- APPBAR ESMERILADO ---
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: Container(
@@ -249,7 +310,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             child: Column(
               children: [
-                // Cabecera Guinda Institucional
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -272,13 +332,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Container(height: 4, width: double.infinity, color: doradoUTM),
 
-                // Cuerpo de la credencial
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // --- ESPACIO DE LA FOTO REAL DEL ALUMNO ---
                       Container(
                         width: 90,
                         height: 120,
@@ -296,7 +354,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(width: 20),
-                      // Datos del alumno
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,7 +387,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 Divider(color: Colors.grey.shade400, height: 1),
 
-                // Reverso (CURP y NSS)
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
@@ -370,12 +426,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
 
           const SizedBox(height: 40),
-          const Text(
-            'Muestra esta credencial digital para identificarte en el campus.',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey, fontSize: 14),
-          ),
-          const SizedBox(height: 20),
           OutlinedButton.icon(
             onPressed: () {
               setState(() => _isEditing = true);
@@ -392,12 +442,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
+
+          // --- AQUÍ ESTÁ EL BOTÓN DE ACERCA DE ---
+          const SizedBox(height: 20),
+          const Divider(color: Colors.grey),
+          ListTile(
+            leading: const Icon(Icons.info_outline, color: guindaUTM),
+            title: const Text(
+              'Acerca del equipo',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () => _mostrarAcercaDe(context),
+          ),
         ],
       ),
     );
   }
 
-  // Widgecito auxiliar para pintar cada campo en la credencial
   Widget _buildDatoCredencial(
     String etiqueta,
     String valor, {
@@ -452,7 +514,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 30),
 
-          // --- SECCIÓN PARA SUBIR/CAMBIAR FOTO ---
           Center(
             child: Stack(
               alignment: Alignment.bottomRight,
@@ -551,7 +612,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // Widgecito que decide si pintar el ícono o la foto real
   Widget _buildImagenAlumno({
     required BoxFit fit,
     Color errorColor = Colors.white,
@@ -559,12 +619,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_imagePath != null && File(_imagePath!).existsSync()) {
       return Image.file(File(_imagePath!), fit: fit);
     } else {
-      // Si no hay foto, muestra el ícono genérico
       return Icon(Icons.person, size: 60, color: errorColor);
     }
   }
 
-  // Widgecito auxiliar para inputs rápidos
   Widget _buildInput(
     String label,
     TextEditingController controller,
